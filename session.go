@@ -691,6 +691,27 @@ func (iter *Iter) Columns() []ColumnInfo {
 	return iter.meta.columns
 }
 
+// Columns returns the current error
+func (iter *Iter) Err() error {
+	return iter.err
+}
+
+func (iter *Iter) Next() bool {
+	if iter.err != nil {
+		return false
+	}
+
+	if iter.pos >= len(iter.rows) {
+		if iter.next != nil {
+			return true
+		}
+
+		return false
+	}
+
+	return true
+}
+
 // Scan consumes the next row of the iterator and copies the columns of the
 // current row into the values pointed at by dest. Use nil as a dest value
 // to skip the corresponding column. Scan might send additional queries
