@@ -737,6 +737,7 @@ func (iter *Iter) Scan(dest ...interface{}) bool {
 
 	// currently only support scanning into an expand tuple, such that its the same
 	// as scanning in more values from a single column
+
 	if len(dest) != iter.meta.actualColCount {
 		iter.err = errors.New("count mismatch")
 		return false
@@ -779,6 +780,11 @@ func (iter *Iter) Scan(dest ...interface{}) bool {
 // the query or the iteration.
 func (iter *Iter) Close() error {
 	return iter.err
+}
+
+// Rows returns the rows from the iterator
+func (iter *Iter) Rows() [][][]byte {
+	return iter.rows
 }
 
 // checkErrAndNotFound handle error and NotFound in one method.
